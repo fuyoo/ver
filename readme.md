@@ -42,7 +42,7 @@
 ## Usage
 
 1. cargo install --git https://github.com/fuyoo/ver.git
-2. ver [args]
+2. at your Cargo.toml dir execute `ver [prerelease,patch,...]`
 
 
 
