@@ -13,19 +13,19 @@ pub struct Cli {
 
 #[derive(Subcommand)]
 pub enum Ver {
-    /// 升级预发布号
+    /// 升级预发布号(Upgrade pre release number)
     Prerelease,
-    /// 升级修订号，保留预发布号
+    /// 升级修订号，保留预发布号(Upgrade patch version number and keep the pre release number)
     Prepatch,
-    /// 升级次版本号，保留预发布号
+    /// 升级次版本号，保留预发布号(Upgrade the minor version number and keep the pre release number)
     Preminor,
-    /// 升级主版本号，保留预发布号
+    /// 升级主版本号，保留预发布号(Upgrade the major version number and keep the pre release number)
     Premajor,
-    /// 升级修订号
+    /// 升级修订号(Upgrade patch version number)
     Patch,
-    /// 升级次版本号
+    /// 升级次版本号(Upgrade minor version number)
     Minor,
-    /// 升级主版本号
+    /// 升级主版本号(Upgrade major version number)
     Major,
 }
 
@@ -184,7 +184,22 @@ fn version_plus(index: usize, ver: Vec<Option<String>>, is_pre: bool) -> Vec<Str
 
 fn main() -> Result<()> {
     let cli: Cli = Cli::parse();
-    cli.do_action()?;
+    match cli.do_action() {
+        Ok(_) => {}
+        Err(e) => {
+            match e.kind() {
+                ErrorKind::NotFound => {
+                    eprintln!("Error: The current directory does not include \"Cargo.toml\" file")
+                }
+                ErrorKind::Other => {
+                    eprintln!("{}", e)
+                }
+                _ => {
+                    eprintln!("{}", "unknown error")
+                }
+            }
+        }
+    }
     Ok(())
 }
 
