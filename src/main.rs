@@ -30,7 +30,7 @@ pub enum Ver {
 }
 
 impl Cli {
-    pub fn do_action(self) -> Result<()> {
+    pub fn do_action(self) -> Result<String> {
         let ver = self.parse_version()?;
         let version = match self.command {
             Ver::Prerelease => self.prerelease(ver)?,
@@ -42,9 +42,9 @@ impl Cli {
             Ver::Major => self.major(ver)?,
         };
         // change the version
-        let data = self.change_resource(version)?;
+        let data = self.change_resource(version.clone())?;
         self.save_resource(data)?;
-        Ok(())
+        Ok(version)
     }
     // change cargo.toml content
     fn change_resource(&self, version: String) -> Result<String> {
@@ -185,7 +185,9 @@ fn version_plus(index: usize, ver: Vec<Option<String>>, is_pre: bool) -> Vec<Str
 fn main() -> Result<()> {
     let cli: Cli = Cli::parse();
     match cli.do_action() {
-        Ok(_) => {}
+        Ok(version) => {
+            println!("now version is {}", version)
+        }
         Err(e) => {
             match e.kind() {
                 ErrorKind::NotFound => {
