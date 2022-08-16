@@ -1,13 +1,16 @@
 [package]
-name = "ver"
-version = "0.0.3"
+name = "cargo-ver"
+version = "0.0.4"
 edition = "2021"
+description = "A toolkit to manage cargo project version"
+readme = "readme.md"
+keywords = [
+    "version",
+]
+license = "MIT"
+repository = "https://github.com/fuyoo/ver"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-clap = { version = "3", features = ["derive"] }
+clap = { version = "3", features = ["cargo"] }
 regex = "1.5"
-
-[[bin]]
-name = "ver"
-path = "src/main.rs"
