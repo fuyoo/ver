@@ -1,5 +1,5 @@
 [package]
-name = "cargo-ver"
+name = "cargo-dover"
 version = "0.0.4"
 edition = "2021"
 description = "A toolkit to manage cargo project version"
