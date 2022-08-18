@@ -1,6 +1,6 @@
 [package]
 name = "cargo-dover"
-version = "0.0.4"
+version = "0.0.5"
 edition = "2021"
 description = "A toolkit to manage cargo project version"
 readme = "readme.md"
@@ -12,5 +12,5 @@ repository = "https://github.com/fuyoo/ver"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-clap = { version = "3", features = ["cargo"] }
+clap = { version = "3.2", features = ["derive"] }
 regex = "1.5"

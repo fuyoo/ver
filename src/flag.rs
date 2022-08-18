@@ -1,24 +1,28 @@
 use std::env;
 use std::fs::{File, OpenOptions};
-use clap::{arg, ArgMatches, command};
+use clap::{Parser};
 use std::io::{Error, ErrorKind, Read, Result, Write};
 use std::path::PathBuf;
 use regex::{Captures, Regex};
 
+#[derive(Parser)]
+#[clap(author, version, about, long_about = None)]
 pub struct Flag {
-    pub command: ArgMatches,
+    /// Optional name to operate on
+    #[clap(value_parser)]
+    pub command: Option<String>,
 }
 
 
 impl Flag {
     pub fn do_action(self) -> Result<String> {
         let ver = self.parse_version()?;
-        let version = match self.command.get_one::<String>("name") {
+        let version = match self.command.as_deref() {
             None => {
                 eprintln!("please use a version type");
                 std::process::exit(0);
             }
-            Some(name) => match name.as_str() {
+            Some(name) => match name {
                 "prerelease" => self.prerelease(ver)?,
                 "prepatch" => self.prepatch(ver)?,
                 "preminor" => self.preminor(ver)?,
@@ -173,54 +177,11 @@ fn version_plus(index: usize, ver: Vec<Option<String>>, is_pre: bool) -> Vec<Str
 }
 
 pub fn build() -> Flag {
-    let matches = command!()
-        .arg(
-            arg!([name] "version type [prerelease,prepatch,preminor,premajor,patch,minor,major]")
-        )
-        // .subcommand(
-        //     Command::new("prerelease")
-        //         .about("Upgrade pre release number")
-        // )
-        // .subcommand(
-        //     Command::new("prepatch")
-        //         .about("Upgrade patch version number and keep the pre release number")
-        // )
-        // .subcommand(
-        //     Command::new("preminor")
-        //         .about("Upgrade the minor version number and keep the pre release number")
-        // )
-        // .subcommand(
-        //     Command::new("premajor")
-        //         .about("Upgrade the major version number and keep the pre release number")
-        // )
-        // .subcommand(
-        //     Command::new("patch")
-        //         .about("Upgrade patch version number")
-        // )
-        // .subcommand(
-        //     Command::new("minor")
-        //         .about("Upgrade minor version number")
-        // )
-        // .subcommand(
-        //     Command::new("major")
-        //         .about("Upgrade major version number")
-        // )
-        .get_matches();
-    Flag {
-        command: matches
-    }
+    Flag::parse()
 }
 
 pub fn _test(name: &str) -> Flag {
-    let matches = command!()
-        .arg(
-            arg!([name] "for test.rs")
-                .default_value(name)
-                .required(false)
-        )
-        .get_matches();
-
-    Flag {
-        command: matches
-    }
+   Flag {
+            command: Some(format!("{}", name))
+        }
 }
