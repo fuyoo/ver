@@ -1,6 +1,6 @@
 # Ver
 
-> A toolkit to manage cargo project version
+> A cargo subcommand toolkit to manage cargo project version
 
 ## Features
 
@@ -41,8 +41,8 @@
 
 ## Usage
 
-1. cargo install --git https://github.com/fuyoo/ver.git
-2. at your Cargo.toml dir execute `ver [prerelease,patch,...]`
+1. cargo install cargo-dover
+2. at your Cargo.toml dir execute `cargo ver [prerelease,patch,...]`
 
 
 
